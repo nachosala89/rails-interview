@@ -1,0 +1,10 @@
+<div id="<%= dom_id todo_item %>">
+  <p>
+    <h3><%= link_to todo_item.description, [todo_item.todo_list, todo_item] %></h3>
+  </p>
+
+  <p>
+    <strong>Done:</strong>
+    <%= todo_item.done %>
+  </p>
+</div>
