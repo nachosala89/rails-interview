@@ -7,7 +7,15 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :todo_lists, only: %i[index new show], path: :todolists do
-    resources :todo_items
+  resources :todo_lists, only: %i[index new create show], path: :todolists do
+    member do
+      post :complete_todo_items
+    end
+    
+    resources :todo_items do
+      member do
+        patch :toggle_completed
+      end
+    end
   end
 end

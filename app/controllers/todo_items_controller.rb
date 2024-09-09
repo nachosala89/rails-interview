@@ -1,7 +1,7 @@
 class TodoItemsController < ApplicationController
-  before_action :set_todo_item, only: %i[ show edit update destroy ]
+  before_action :set_todo_item, only: %i[ show edit update destroy toggle_completed ]
 
-  # GET /todo_items
+  # GET todolists/:todo_list_id/todo_items
   def index
     @todo_items = TodoItem.all
   end
@@ -14,10 +14,18 @@ class TodoItemsController < ApplicationController
   def new
     @todo_list = TodoList.find(params[:todo_list_id])
     @todo_item = @todo_list.todo_items.build
+    respond_to do |format|
+      format.html
+      format.turbo_stream
+    end
   end
 
   # GET /todo_items/1/edit
   def edit
+    respond_to do |format|
+      format.html
+      format.turbo_stream
+    end
   end
 
   # POST /todo_items
@@ -27,6 +35,7 @@ class TodoItemsController < ApplicationController
     respond_to do |format|
       if @todo_item.save
         format.html { redirect_to todo_list_url(@todo_item.todo_list), notice: "Todo item was successfully created." }
+        format.turbo_stream
       else
         format.html { render :new, status: :unprocessable_entity }
       end
@@ -38,6 +47,7 @@ class TodoItemsController < ApplicationController
     respond_to do |format|
       if @todo_item.update(todo_item_params)
         format.html { redirect_to todo_list_todo_item_url(@todo_item), notice: "Todo item was successfully updated." }
+        format.turbo_stream
       else
         format.html { render :edit, status: :unprocessable_entity }
       end
@@ -50,6 +60,13 @@ class TodoItemsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to todo_list_url(@todo_item.todo_list), notice: "Todo item was successfully destroyed." }
+    end
+  end
+
+  def toggle_completed
+    @todo_item.update(done: !@todo_item.done)
+    respond_to do |format|
+      format.turbo_stream
     end
   end
 

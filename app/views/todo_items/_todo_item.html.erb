@@ -1,10 +1,12 @@
-<div id="<%= dom_id todo_item %>">
+<turbo-frame id="todo_item_<%= todo_item.id %>">
+  <div class="todo-item">
   <p>
-    <h3><%= link_to todo_item.description, [todo_item.todo_list, todo_item] %></h3>
-  </p>
+    <%= form_with(model: todo_item, url: todo_list_todo_item_path(todo_item.todo_list, todo_item), method: :patch, data: { turbo_frame: "_top" }) do |form| %>
+      <%= form.text_field :description, value: todo_item.description, data: { action: "turbo:submit-on-enter" } %>
+    <% end %>
 
-  <p>
-    <strong>Done:</strong>
-    <%= todo_item.done %>
+    <%= button_to "#{todo_item.done ? 'Done' : 'Pending'}", toggle_completed_todo_list_todo_item_path(todo_item.todo_list, todo_item), method: :patch, class: "todo-completed-button", data: { turbo_frame: "_top" } %>
+    <%= button_to "Delete", todo_list_todo_item_path(todo_item.todo_list, todo_item), method: :delete, data: { turbo_frame: "_top" } %>
   </p>
-</div>
+  </div>
+</turbo-frame>

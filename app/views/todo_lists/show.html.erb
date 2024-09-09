@@ -1,7 +1,9 @@
 <p style="color: green"><%= notice %></p>
 
-<%= render @todo_list %>
+<%= turbo_stream_from @todo_list %>
 
+<%= render @todo_list %>
+<br>
 <div>
   <%= link_to "Back to todo lists", todo_lists_path %>
 </div>

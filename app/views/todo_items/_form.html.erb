@@ -12,21 +12,11 @@
   <% end %>
 
   <div>
-    <%= form.label :description, style: "display: block" %>
+    <%= form.label "New Task", style: "display: block" %>
     <%= form.text_field :description %>
-  </div>
 
-  <div>
-    <%= form.label :done, style: "display: block" %>
-    <%= form.check_box :done %>
-  </div>
+    <%= form.hidden_field :todo_list_id, value: todo_item.todo_list.id %>
 
-  <div>
-    <%= form.label :todo_list_id, style: "display: block" %>
-    <%= form.text_field :todo_list_id %>
-  </div>
-
-  <div>
-    <%= form.submit %>
+    <%= form.submit "Save" %>
   </div>
 <% end %>
