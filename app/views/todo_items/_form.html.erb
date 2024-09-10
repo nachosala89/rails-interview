@@ -15,8 +15,6 @@
     <%= form.label "New Task", style: "display: block" %>
     <%= form.text_field :description %>
 
-    <%= form.hidden_field :todo_list_id, value: todo_item.todo_list.id %>
-
     <%= form.submit "Save" %>
   </div>
 <% end %>

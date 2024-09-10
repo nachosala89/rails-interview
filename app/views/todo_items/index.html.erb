@@ -6,9 +6,9 @@
   <% @todo_items.each do |todo_item| %>
     <%= render todo_item %>
     <p>
-      <%= link_to "Show this todo item", todo_item %>
+      <%= link_to "Show this todo item", todo_list_todo_item_url %>
     </p>
   <% end %>
 </div>
 
-<%= link_to "New todo item", new_todo_item_path %>
+<%= link_to "New todo item", new_todo_list_todo_item_path %>

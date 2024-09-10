@@ -1,5 +1,6 @@
 class TodoItemsController < ApplicationController
   before_action :set_todo_item, only: %i[ show edit update destroy toggle_completed ]
+  before_action :set_todo_list
 
   # GET todolists/:todo_list_id/todo_items
   def index
@@ -31,6 +32,7 @@ class TodoItemsController < ApplicationController
   # POST /todo_items
   def create
     @todo_item = TodoItem.new(todo_item_params)
+    @todo_item.todo_list = @todo_list
 
     respond_to do |format|
       if @todo_item.save
@@ -66,6 +68,7 @@ class TodoItemsController < ApplicationController
   def toggle_completed
     @todo_item.update(done: !@todo_item.done)
     respond_to do |format|
+      format.html { redirect_to todo_list_url(@todo_item.todo_list), notice: "Todo item was successfully updated." }
       format.turbo_stream
     end
   end
@@ -79,5 +82,9 @@ class TodoItemsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def todo_item_params
       params.require(:todo_item).permit(:description, :done, :todo_list_id)
+    end
+
+    def set_todo_list
+      @todo_list = TodoList.find_by(id: params[:todo_list_id])
     end
 end

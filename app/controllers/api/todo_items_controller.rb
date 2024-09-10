@@ -17,11 +17,12 @@ module Api
   # POST /api/todolist/:todo_list_id/todo_items
   def create
     @todo_item = TodoItem.new(todo_item_params)
+    @todo_item.todo_list = @todo_list
 
     if @todo_item.save
       render json: @todo_item, status: :created
     else
-      render_errors(@todo_item)
+      render json: { errors: @todo_item.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
@@ -30,7 +31,7 @@ module Api
     if @todo_item.update(todo_item_params)
       render json: @todo_item
     else
-      render_errors(@todo_item)
+      render json: { errors: @todo_item.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
@@ -53,7 +54,7 @@ module Api
 
     # Only allow a list of trusted parameters through.
     def todo_item_params
-      params.require(:todo_item).permit(:todo_list_id, :description, :done)
+      params.require(:todo_item).permit(:description, :done)
     end
 
     def set_todo_list
