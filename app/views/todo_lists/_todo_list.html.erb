@@ -1,0 +1,18 @@
+<div id="<%= dom_id todo_list %>">
+  <h1><%= todo_list.name %></h1>
+  <%= button_to 'Complete All Tasks', complete_todo_items_todo_list_path(@todo_list), method: :post %>
+  <br>
+  <div>
+    <%= link_to 'All Tasks', todo_list_path(todo_list, filter: 'all') %> |
+    <%= link_to 'Pending', todo_list_path(todo_list, filter: 'pending') %> |
+    <%= link_to 'Done', todo_list_path(todo_list, filter: 'done') %>
+  </div>
+  
+  <ul id="todo_items">
+    <% @todo_items.each do |todo_item| %>
+      <li><%= render 'todo_items/todo_item', todo_item: todo_item %></li>
+    <% end %>
+  </ul>
+  <%= turbo_frame_tag "new_todo_item", src: new_todo_list_todo_item_path(todo_list), target: "_top" %>
+  <br>
+</div>
